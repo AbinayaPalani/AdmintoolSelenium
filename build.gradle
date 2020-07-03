@@ -12,6 +12,7 @@ apply plugin: 'java'
 
 sourceCompatibility = 1.8
 
+buildscript {
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -44,7 +45,17 @@ dependencies {
 		
 
 }
+}
 
+allprojects {
+repositories {
+    jcenter {
+        url "http://jcenter.bintray.com/"
+    }
+         maven { url 'http://repo1.maven.org/maven2' }
+    
+  }
+}
 test {
     useTestNG()
 }
