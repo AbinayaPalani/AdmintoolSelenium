@@ -18,8 +18,10 @@ repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
 
-     mavenLocal()
-        jcenter()
+     jcenter {
+        url "http://jcenter.bintray.com/"
+    }
+     maven { url 'http://repo1.maven.org/maven2' }
 }
 
 dependencies {
