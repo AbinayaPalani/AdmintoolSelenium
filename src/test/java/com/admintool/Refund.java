@@ -21,9 +21,9 @@ public class Refund {
 
 	}
 	
-	public static WebElement getApprovedBy(WebDriver driver){
+	public static WebElement getDsLinkForRefund(WebDriver driver){
 		
-		element = driver.findElement(PathSource.ApprovedBy);
+		element = driver.findElement(PathSource.DsLink);
 		return element;
 	}
 	

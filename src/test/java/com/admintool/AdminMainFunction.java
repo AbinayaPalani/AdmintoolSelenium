@@ -1,12 +1,19 @@
 package com.admintool;
 
+
+import java.awt.Toolkit;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
@@ -23,6 +30,8 @@ public class AdminMainFunction {
 	@Test
 	public void adminToolCalls() throws InterruptedException{
 		
+
+		
 		
 		APICalls.getUserByAccountPin();
 		
@@ -30,13 +39,23 @@ public class AdminMainFunction {
 		
 		options.addArguments("--disable-notifications");
 		
+		//options.addArguments("--headless");
+		
 		WebDriverManager.chromedriver().setup();
 		
 		driver = new ChromeDriver(options);
 		
+		java.awt.Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
+        Dimension dim= new Dimension((int)screenSize.getWidth(),(int)screenSize.getHeight());
+
+        driver.manage().window().setSize(dim);
+		
+		Actions actions = new Actions(driver);
+		
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		
-		WebDriverWait wait=new WebDriverWait(driver, 100);
+		WebDriverWait wait=new WebDriverWait(driver, 10000);
 		
 		driver.get("https://staging.access.answerconnect.com");
 		
@@ -62,9 +81,22 @@ public class AdminMainFunction {
 		
 		Login.adminToolMenu(driver).click();
 		
+		System.out.println(1);
+		
 		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("adminTool")));
 		
+		System.out.println(2);
+		
+		
+		
+		driver.switchTo().defaultContent();
+		
 		driver.switchTo().frame("adminTool");
+
+		
+		System.out.println(3);
+		 
+		System.out.println(driver.switchTo().activeElement());
 		
 		String CompanyName = AccountSummary.getCompanyName(driver).getAttribute("value");
 		
@@ -91,9 +123,9 @@ public class AdminMainFunction {
 			
 			Credit.createCreditLink(driver).click();
 			
-			Credit.getApprovedByCredit(driver).sendKeys("abinaya@test.com");
+			Credit.getDSLinkForCredit(driver).sendKeys("https://www.google.com");
 			
-			Credit.getCreditAmount(driver).sendKeys("1");
+			Credit.getCreditAmount(driver).sendKeys("1.9");
 			
 			Credit.getCreditReason(driver).click();
 			
@@ -103,9 +135,49 @@ public class AdminMainFunction {
 			
 			int randomNumCredit = 1 + creditRandom.nextInt(Credit.getCreditReasonCountList(driver).size());
 			
-			if(Credit.getCreditReasonCountList(driver).size()==16){
+			System.out.println(randomNumCredit);
+			
+			
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(PathSource.Reason));
+			
+			
+			int CreditReason = Credit.getCreditReasonCountList(driver).size();
+			
+			
+			
+			System.out.println("Passing number"+Credit.getCreditReasonCountList(driver).size());
+			
+			WebElement reasonElementscroll = driver.findElement(By.xpath(".//ul[@id='popupReasonList']/li"+"["+randomNumCredit+"]"));
+
+			
+			List<WebElement> reasonElement = driver.findElements(By.xpath(".//ul[@id='popupReasonList']/li"));
+			
+			System.out.println(reasonElement.toString());
+
+			
+			//WebElement reasonElement = driver.findElement(By.xpath(".//ul[@id='popupReasonList']/li"+"["+randomNumCredit+"]"));
+
+			
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", reasonElementscroll);
+			
+			Thread.sleep(1000);
+			
+			
+			if(randomNumCredit==16){
+		
 				
-				driver.findElement(By.xpath(".//ul[@id='popupReasonList']/li"+"["+randomNumCredit+"]")).click();
+				
+				
+				//actions.moveToElement(reasonElement).click().perform();
+				
+				Thread.sleep(1000);
+				
+				reasonElementscroll.click();
+				//reasonElement.get(randomNumCredit).click();
+
+				
+				//river.findElement(By.xpath(".//ul[@id='popupReasonList']/li"+"["+randomNumCredit+"]")).click();
 				
 				Credit.getOtherCreditReason(driver).sendKeys("Testing the credit adjustment and filling the content in credit other reason");
 								
@@ -113,7 +185,11 @@ public class AdminMainFunction {
 			}
 			else{
 		    
-			driver.findElement(By.xpath(".//ul[@id='popupReasonList']/li"+"["+randomNumCredit+"]")).click();
+			//driver.findElement(By.xpath(".//ul[@id='popupReasonList']/li"+"["+randomNumCredit+"]")).click();
+				Thread.sleep(1000);
+				
+				reasonElementscroll.click();
+				//reasonElement.get(randomNumCredit).click();
 			
 			}
 			
@@ -122,15 +198,19 @@ public class AdminMainFunction {
 			CommonCode.submitForm(driver).click();
 			
 		}
+		
+		wait.until(ExpectedConditions.elementToBeClickable(Debit.debitSection(driver)));
 			
 			//Debit Submit Section
 			
 			
 			if(Debit.debitSection(driver).isDisplayed()){
 				
+				Debit.debitSection(driver).click();
+				
 				Debit.createDebitLink(driver).click();
 				
-				Debit.getApprovedByDebit(driver).sendKeys("abinaya@test.com");
+				Debit.getDsLinkForDebit(driver).sendKeys("abinaya@test.com");
 				
 				debitRandom = new Random();
 				
@@ -177,7 +257,7 @@ public class AdminMainFunction {
 				
 					Refund.refundLink(driver).click();
 					
-					Refund.getApprovedBy(driver).sendKeys("abinaya@test.com");
+					Refund.getDsLinkForRefund(driver).sendKeys("abinaya@test.com");
 					
 					
 					

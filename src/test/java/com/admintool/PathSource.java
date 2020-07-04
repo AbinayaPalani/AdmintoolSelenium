@@ -32,7 +32,7 @@ public class PathSource {
 	public static By ChangeAccountStatus = By.xpath(".//button[@id='accountStatusButton']/span");
 	public static By Cancel_CancelName = By.xpath("//input[@id='popupName']");
 	public static By Cancel_PhoneNumber = By.xpath("//input[@id='popupNumber']");
-	public static By ApprovedBy = By.xpath("//input[@id='popupEmail']");
+	public static By DsLink = By.xpath("//input[@id='popupURL']");
 	public static By Cancel_CancelReason = By.xpath("//button[@id='popupCancellationReasonButton']");
 	public static By Cancel_Addtnl = By.xpath("//textarea[@id='popupDescription']");
 	public static By Cancel_AddtnlCancelReason = By.xpath("//textarea[@id='cancelReason']");

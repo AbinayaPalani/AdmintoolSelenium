@@ -23,9 +23,9 @@ public class Debit {
 		
 	}
 	
-	public static WebElement getApprovedByDebit(WebDriver driver){
+	public static WebElement getDsLinkForDebit(WebDriver driver){
 		
-		element = driver.findElement(PathSource.ApprovedBy);
+		element = driver.findElement(PathSource.DsLink);
 		return element;
 	}
 	

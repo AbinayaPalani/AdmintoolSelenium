@@ -29,9 +29,9 @@ public class Credit {
 		
 	}
 	
-	public static WebElement getApprovedByCredit(WebDriver driver){
+	public static WebElement getDSLinkForCredit(WebDriver driver){
 		
-		element = driver.findElement(PathSource.ApprovedBy);
+		element = driver.findElement(PathSource.DsLink);
 		return element;
 	}
 	
